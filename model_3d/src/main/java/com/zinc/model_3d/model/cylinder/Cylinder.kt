@@ -18,6 +18,7 @@ class Cylinder(
     n: Int,              // 份数
     private val topTextureId: Int,   // 顶部纹理
     private val bottomTextureId: Int, // 底部纹理
+    private val sideTextureId: Int, // 底部纹理
     controlModel3DInfo: ControlModel3DInfo
 ) : IModel {
 
@@ -56,7 +57,7 @@ class Cylinder(
         MatrixState.pushMatrix()
         MatrixState.translate(0f, -height / 2, 0f)
         // 绘制侧面
-        cylinderSide.draw(topTextureId)
+        cylinderSide.draw(sideTextureId)
         // 恢复现场
         MatrixState.popMatrix()
 

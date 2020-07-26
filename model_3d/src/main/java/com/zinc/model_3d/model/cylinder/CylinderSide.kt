@@ -57,48 +57,78 @@ class CylinderSide(
         var curAngle = 0.0
 
         while (ceil(curAngle) < 360) {
-            //生成每对三角形的顶点数据
-            val radian = Math.toRadians(curAngle) //当前弧度
-            val radianNext = Math.toRadians(curAngle + span.toDouble()) //下一弧度
-            //底圆当前点---0
-            vertices[count++] = (-r * sin(radian)).toFloat() //第一个三角形顶点1
-            vertices[count++] = 0f
-            vertices[count++] = (-r * cos(radian)).toFloat()
+            // 当前弧度
+            val radian = Math.toRadians(curAngle)
+            // 下一弧度
+            val radianNext = Math.toRadians(curAngle + span.toDouble())
 
-            textures[stCount++] = (radian / (2 * Math.PI)).toFloat() //纹理坐标
-            textures[stCount++] = 1f
+            /**
+             * 纹理               (y = r*cos(α),)
+             *                       P1              P3    (1, 0)
+             * ---------------------------------------------> S
+             * ｜                     ｜             ∕｜
+             * ｜                     ｜            ∕ ｜
+             * ｜                     ｜           ∕  ｜
+             * ｜                     ｜          ∕   ｜
+             * ｜                     ｜         ∕    ｜
+             * ｜                     ｜        ∕     ｜
+             * ｜                     ｜       ∕      ｜
+             * ｜----------------------------—∕-----------------
+             * ｜          (0.5, 0.5) ｜     ∕        ｜
+             * ｜                     ｜ α  ∕         ｜
+             * ｜                     ｜   ∕          ｜
+             * ｜                     ｜  ∕           ｜
+             * ｜                     ｜ ∕            ｜
+             * ｜                     ｜∕             ｜
+             * ｜----------------------------——-----------------
+             * v  (0, 1)             P2              P4
+             *
+             * T
+             */
 
-            //顶圆下一点---3
-            vertices[count++] = (-r * sin(radianNext)).toFloat() //第一个三角形顶点2
+            // ============================= 第一个三角形 ====================================
+            // P1
+            vertices[count++] = (r * sin(radian)).toFloat()
             vertices[count++] = height
-            vertices[count++] = (-r * cos(radianNext)).toFloat()
-            textures[stCount++] = (radianNext / (2 * Math.PI)).toFloat() //纹理坐标
+            vertices[count++] = (r * cos(radian)).toFloat()
+            textures[stCount++] = (curAngle / 360).toFloat()
             textures[stCount++] = 0f
 
-            //顶圆当前点---2
-            vertices[count++] = (-r * sin(radian)).toFloat() //第一个三角形顶点3
+            // P2
+            vertices[count++] = (r * sin(radian)).toFloat()
+            vertices[count++] = 0f
+            vertices[count++] = (r * cos(radian)).toFloat()
+            // 纹理坐标
+            textures[stCount++] = (curAngle / 360).toFloat()
+            textures[stCount++] = 1f
+
+            // P3
+            vertices[count++] = (r * sin(radianNext)).toFloat()
             vertices[count++] = height
-            vertices[count++] = (-r * cos(radian)).toFloat()
-            textures[stCount++] = (radian / (2 * Math.PI)).toFloat() //纹理坐标
+            vertices[count++] = (r * cos(radianNext)).toFloat()
+            textures[stCount++] = ((curAngle + span) / 360).toFloat()
             textures[stCount++] = 0f
 
-            //底圆当前点---0
-            vertices[count++] = (-r * sin(radian)).toFloat() //第二个三角形顶点1
+            // ============================= 第二个三角形 ====================================
+            // P2
+            vertices[count++] = (r * sin(radian)).toFloat()
             vertices[count++] = 0f
-            vertices[count++] = (-r * cos(radian)).toFloat()
-            textures[stCount++] = (radian / (2 * Math.PI)).toFloat() //纹理坐标
+            vertices[count++] = (r * cos(radian)).toFloat()
+            textures[stCount++] = (curAngle / 360).toFloat()
             textures[stCount++] = 1f
-            //底圆下一点---1
-            vertices[count++] = (-r * sin(radianNext)).toFloat() //第二个三角形顶点2
+
+            // P4
+            vertices[count++] = (r * sin(radianNext)).toFloat()
             vertices[count++] = 0f
-            vertices[count++] = (-r * cos(radianNext)).toFloat()
-            textures[stCount++] = (radianNext / (2 * Math.PI)).toFloat() //纹理坐标
+            vertices[count++] = (r * cos(radianNext)).toFloat()
+            textures[stCount++] = ((curAngle + span) / 360).toFloat()
             textures[stCount++] = 1f
-            //顶圆下一点---3
-            vertices[count++] = (-r * sin(radianNext)).toFloat() //第二个三角形顶点3
+
+            // P3
+            vertices[count++] = (r * sin(radianNext)).toFloat()
             vertices[count++] = height
-            vertices[count++] = (-r * cos(radianNext)).toFloat()
-            textures[stCount++] = (radianNext / (2 * Math.PI)).toFloat() //纹理坐标
+            vertices[count++] = (r * cos(radianNext)).toFloat()
+            textures[stCount++] = ((curAngle + span) / 360).toFloat()
             textures[stCount++] = 0f
 
             curAngle += span

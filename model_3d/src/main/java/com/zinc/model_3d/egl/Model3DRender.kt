@@ -15,9 +15,21 @@ class Model3DRender(context: Context, private val controlModel3DInfo: ControlMod
 
     override fun initData(context: Context) {
         // 加载纹理
-        val textureId = TextureUtils.obtainTexture(context, R.drawable.texture, StretchMode.REPEAT)
+        val textureId1 =
+            TextureUtils.obtainTexture(context, R.drawable.texture1, StretchMode.REPEAT)
+        val textureId2 =
+            TextureUtils.obtainTexture(context, R.drawable.texture2, StretchMode.REPEAT)
         // 创建圆柱骨架对象
-        mData = Cylinder(context, 1.2f, 0.8f, 36, textureId, textureId, controlModel3DInfo)
+        mData = Cylinder(
+            context,
+            1.2f,
+            0.8f,
+            36,
+            textureId1,
+            textureId1,
+            textureId2,
+            controlModel3DInfo
+        )
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
