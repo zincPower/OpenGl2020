@@ -1,0 +1,7 @@
+include ':model_3d'
+include ':obj_3d'
+include ':texture'
+include ':base'
+include ':light'
+include ':app'
+rootProject.name = "OpenGl2020"
