@@ -52,26 +52,29 @@ abstract class BaseSceneRender<DATA : IModel>(context: Context) : GLSurfaceView.
             MatrixState.setProjectFrustum(
                 -surfaceViewRatio, surfaceViewRatio,
                 -1f, 1f,
-                20f, 100f
+                getNear(), getFar()
             )
         } else {
             // 正交投影
             MatrixState.setProjectOrtho(
                 -surfaceViewRatio, surfaceViewRatio,
                 -1f, 1f,
-                20f, 100f
+                getNear(), getFar()
             )
         }
 
         // 调用此方法产生摄像机9参数位置矩阵
         MatrixState.setCamera(
-            0f, 0f, 30f,
+            0f, 0f, getSeeZ(),
             0f, 0f, 0f,
             0f, 1.0f, 0.0f
         )
 
         // 初始化变换矩阵
         MatrixState.initStack()
+
+        // 初始化光源
+        MatrixState.setLightLocation(10f, 0f, -10f)
     }
 
     /**
@@ -117,4 +120,19 @@ abstract class BaseSceneRender<DATA : IModel>(context: Context) : GLSurfaceView.
      * @param data 数据模型
      */
     abstract fun drawData(data: DATA)
+
+    /**
+     * 获取视景体的近面距离
+     */
+    open fun getNear(): Float = 20f
+
+    /**
+     * 获取视景体的远面距离
+     */
+    open fun getFar(): Float = 1000f
+
+    /**
+     * 获取观察点的z轴距离
+     */
+    open fun getSeeZ(): Float = 100f
 }

@@ -1,6 +1,5 @@
 package com.zinc.base.utils
 
-import android.R
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -125,11 +124,12 @@ object TextureUtils {
             }
         }
 
-        //实际加载纹理进显存
         GLUtils.texImage2D(
             GLES30.GL_TEXTURE_2D,  //纹理类型
-            0,  //纹理的层次，0表示基本图像层，可以理解为直接贴图
+            0,
+            GLUtils.getInternalFormat(bitmap),
             bitmap,  //纹理图像
+            GLUtils.getType(bitmap),
             0 //纹理边框尺寸
         )
         bitmap.recycle() //纹理加载成功后释放图片

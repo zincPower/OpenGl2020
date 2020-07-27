@@ -37,7 +37,7 @@ class CylinderSide(
     override fun getDrawType(): Int {
         return when (controlModel3DInfo.drawType) {
             DrawType.LINE -> GLES30.GL_LINE_STRIP
-            DrawType.COLOR -> GLES30.GL_TRIANGLES
+            DrawType.COLOR -> GLES30.GL_POLYGON_OFFSET_FILL
             DrawType.POINT -> GLES30.GL_POINTS
             DrawType.TEXTURE -> GLES30.GL_TRIANGLES
         }

@@ -32,12 +32,6 @@ class Model3DRender(context: Context, private val controlModel3DInfo: ControlMod
         )
     }
 
-    override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        super.onSurfaceChanged(gl, width, height)
-        //初始化光源
-        MatrixState.setLightLocation(10f, 0f, -10f)
-    }
-
     override fun drawData(data: Cylinder) {
         // 绕X轴转动
         MatrixState.rotate(xAngle, 1f, 0f, 0f)

@@ -1,7 +1,8 @@
-package com.zinc.obj_3d
+package com.zinc.obj_3d.view
 
 import android.os.Bundle
 import com.zinc.base.BaseActivity
+import com.zinc.obj_3d.R
 
 class Obj3DActivity : BaseActivity() {
 

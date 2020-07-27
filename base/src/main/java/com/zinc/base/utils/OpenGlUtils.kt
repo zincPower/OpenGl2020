@@ -3,7 +3,10 @@ package com.zinc.base.utils
 import android.content.res.Resources
 import android.opengl.GLES30
 import android.util.Log
+import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
 import java.nio.charset.Charset
 
 /**
@@ -39,7 +42,23 @@ object OpenGlUtils {
             e.printStackTrace()
             ""
         }
+    }
 
+    /**
+     * 从assert打开文件流
+     *
+     * @param fileName 文件名
+     * @param resource 资源
+     */
+    fun getAssetsBufferReader(fileName: String, resource: Resources): BufferedReader? {
+        return try {
+            val inputStream = resource.assets.open(fileName)
+            val inputStreamReader = InputStreamReader(inputStream)
+            BufferedReader(inputStreamReader)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     /**
