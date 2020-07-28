@@ -1,4 +1,4 @@
-package com.zinc.model_3d.model.cylinder
+package com.zinc.model_3d.model
 
 import android.content.Context
 import android.opengl.GLES30

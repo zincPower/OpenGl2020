@@ -129,10 +129,10 @@ abstract class BaseSceneRender<DATA : IModel>(context: Context) : GLSurfaceView.
     /**
      * 获取视景体的远面距离
      */
-    open fun getFar(): Float = 1000f
+    open fun getFar(): Float = 100f
 
     /**
      * 获取观察点的z轴距离
      */
-    open fun getSeeZ(): Float = 100f
+    open fun getSeeZ(): Float = 30f
 }

@@ -1,4 +1,4 @@
-package com.zinc.model_3d.model.cylinder
+package com.zinc.model_3d.model.cone
 
 import android.content.Context
 import android.opengl.GLES30
@@ -6,6 +6,9 @@ import com.zinc.base.utils.allocatFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
 import com.zinc.model_3d.model.DrawType
 import com.zinc.model_3d.model.Model3DBaseModel
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.security.PrivateKey
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
@@ -17,8 +20,8 @@ import kotlin.math.sin
  * @des: 圆
  */
 class Circle(
-    context: Context,       // 上下文
-    private val r: Float,   // 半径
+    context: Context,        // 上下文
+    private val r: Float,    // 半径
     private val n: Int,      // 份数
     controlModel3DInfo: ControlModel3DInfo
 ) : Model3DBaseModel(context, controlModel3DInfo) {

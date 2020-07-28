@@ -5,8 +5,7 @@ import android.opengl.GLES30
 import com.zinc.base.utils.allocatFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
 import com.zinc.model_3d.model.DrawType
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import com.zinc.model_3d.model.Model3DBaseModel
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
