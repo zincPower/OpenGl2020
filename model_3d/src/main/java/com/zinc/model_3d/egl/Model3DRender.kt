@@ -10,6 +10,8 @@ import com.zinc.model_3d.R
 import com.zinc.model_3d.model.ControlModel3DInfo
 import com.zinc.model_3d.model.cone.Cone
 import com.zinc.model_3d.model.cylinder.Cylinder
+import com.zinc.model_3d.model.spring.Spring
+import com.zinc.model_3d.model.torus.Torus
 import javax.microedition.khronos.opengles.GL10
 
 class Model3DRender(context: Context, private val controlModel3DInfo: ControlModel3DInfo) :
@@ -33,12 +35,34 @@ class Model3DRender(context: Context, private val controlModel3DInfo: ControlMod
 //            controlModel3DInfo
 //        )
 
-        mData = Cone(
+//        mData = Cone(
+//            context,
+//            1.2f,
+//            0.8f,
+//            36,
+//            textureId1,
+//            textureId2,
+//            controlModel3DInfo
+//        )
+
+//        mData = Torus(
+//            context,
+//            1.5f,
+//            1f,
+//            36,
+//            36,
+//            textureId2,
+//            controlModel3DInfo
+//        )
+
+        mData = Spring(
             context,
-            1.2f,
-            0.8f,
+            3f,
+            3f,
+            1.5f,
+            1f,
             36,
-            textureId1,
+            36,
             textureId2,
             controlModel3DInfo
         )

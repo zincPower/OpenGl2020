@@ -16,6 +16,11 @@ import java.nio.FloatBuffer
  */
 abstract class Model3DBaseModel(context: Context, val controlModel3DInfo: ControlModel3DInfo) :
     IModel {
+
+    companion object {
+        const val CIRCLE_ANGLE = 360f
+    }
+
     // 自定义渲染管线着色器程序id
     protected var mProgram = 0
 
@@ -143,6 +148,13 @@ abstract class Model3DBaseModel(context: Context, val controlModel3DInfo: Contro
         GLES30.glDrawArrays(getDrawType(), 0, vCount)
     }
 
-    abstract fun getDrawType(): Int
+    open fun getDrawType(): Int {
+        return when (controlModel3DInfo.drawType) {
+            DrawType.LINE -> GLES30.GL_LINE_STRIP
+            DrawType.COLOR -> GLES30.GL_TRIANGLES
+            DrawType.POINT -> GLES30.GL_POINTS
+            DrawType.TEXTURE -> GLES30.GL_TRIANGLES
+        }
+    }
 
 }

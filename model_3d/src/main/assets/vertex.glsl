@@ -82,4 +82,6 @@ void main(){
     gl_Position = uMVPMatrix * vec4(aPosition, 1);
     directionalLight(vambient, vdiffuse, vspecular, uLightLocation, ambientLightPower, diffuseLightPower, specularLightPower);
     vTextureCoord = aTexCoor;
+
+    gl_PointSize = 2.0;
 }

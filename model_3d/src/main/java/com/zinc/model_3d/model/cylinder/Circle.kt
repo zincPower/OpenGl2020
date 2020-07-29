@@ -23,22 +23,9 @@ class Circle(
     controlModel3DInfo: ControlModel3DInfo
 ) : Model3DBaseModel(context, controlModel3DInfo) {
 
-    companion object {
-        const val CIRCLE_ANGLE = 360.0f
-    }
-
     init {
         initVertexData()
         initShader(context)
-    }
-
-    override fun getDrawType(): Int {
-        return when (controlModel3DInfo.drawType) {
-            DrawType.LINE -> GLES30.GL_LINE_STRIP
-            DrawType.COLOR -> GLES30.GL_TRIANGLES
-            DrawType.POINT -> GLES30.GL_POINTS
-            DrawType.TEXTURE -> GLES30.GL_TRIANGLES
-        }
     }
 
     override fun initVertexData() {

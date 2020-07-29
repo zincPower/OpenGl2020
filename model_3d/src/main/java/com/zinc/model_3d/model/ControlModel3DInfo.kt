@@ -8,7 +8,10 @@ import com.zinc.base.model.IControlModel
  * @email: 56002982@qq.com
  * @des: 3d模型控制信息
  */
-data class ControlModel3DInfo(var drawType: DrawType = DrawType.TEXTURE) : IControlModel
+data class ControlModel3DInfo(
+    var drawType: DrawType = DrawType.TEXTURE,
+    var drawModel: DrawModel = DrawModel.CYLINDER
+) : IControlModel
 
 /**
  * @author: Jiang Pengyong
@@ -38,6 +41,14 @@ enum class DrawType(val value: Int) {
  */
 enum class DrawModel {
     // 圆柱体
-    CYLINDER
+    CYLINDER,
 
+    // 圆锥
+    CONE,
+
+    // 圆环
+    TORUS,
+
+    // 螺旋管
+    SPRING
 }
