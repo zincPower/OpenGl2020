@@ -16,6 +16,7 @@ class Model3DSurfaceView : BaseSurfaceView<Model3DRender, ControlModel3DInfo> {
 
     override fun setControlModel(controlModel: ControlModel3DInfo) {
         mControlModel.drawType = controlModel.drawType
+        mControlModel.drawModel = controlModel.drawModel
     }
 
     override fun getRender(context: Context, controlModel: ControlModel3DInfo): Model3DRender {

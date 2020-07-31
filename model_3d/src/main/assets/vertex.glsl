@@ -83,5 +83,5 @@ void main(){
     directionalLight(vambient, vdiffuse, vspecular, uLightLocation, ambientLightPower, diffuseLightPower, specularLightPower);
     vTextureCoord = aTexCoor;
 
-    gl_PointSize = 2.0;
+    gl_PointSize = 5.0;
 }
