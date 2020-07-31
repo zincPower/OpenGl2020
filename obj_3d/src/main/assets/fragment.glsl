@@ -11,6 +11,6 @@ in vec2 vTextureCoord;
 out vec4 fragColor;
 
 void main(){
-    vec4 finalColor=texture(sTexture, vTextureCoord);
+    vec4 finalColor= texture(sTexture, vTextureCoord);
     fragColor = finalColor*ambient+finalColor*specular+finalColor*diffuse;
 }   

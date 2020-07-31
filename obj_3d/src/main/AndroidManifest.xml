@@ -8,8 +8,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity android:name=".view.Obj3DActivity">-->
         <activity android:name=".view.Obj3DActivity">
+<!--        <activity android:name=".view.Obj3DActivity">-->
+<!--        <activity android:name=".test1.Sample9_5_Activity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

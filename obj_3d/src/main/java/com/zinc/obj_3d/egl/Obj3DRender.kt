@@ -4,6 +4,7 @@ import android.content.Context
 import com.zinc.base.control.StretchMode
 import com.zinc.base.egl.BaseSceneRender
 import com.zinc.base.utils.Load3DMaxObjUtils
+//import com.zinc.base.utils.LoadUtil
 import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.TextureUtils
 import com.zinc.obj_3d.R
@@ -23,6 +24,7 @@ class Obj3DRender(context: Context, private val controlObj3DInfo: ControlObj3DIn
         val maxObjInfo = when (controlObj3DInfo.type) {
             ObjType.TEAPOT -> {
                 Load3DMaxObjUtils.load("teapot.obj", context.resources, textureFlip = true)
+//                LoadUtil.loadFromFile("teapot.obj", context.resources)
             }
         }
 

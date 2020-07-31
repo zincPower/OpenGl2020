@@ -86,7 +86,7 @@ class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel 
         mTexCoorBuffer = allocatFloatBuffer(maxObjInfo.textureData)
         mNormalBuffer = allocatFloatBuffer(maxObjInfo.normalData)
 
-        vCount = maxObjInfo.vertexData.size
+        vCount = maxObjInfo.vertexData.size / 3
     }
 
     override fun draw(textureId: Int) {
@@ -139,6 +139,7 @@ class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel 
 
         // 绘制加载的物体
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, vCount)
+//        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, vCount)
     }
 
 }
