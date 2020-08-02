@@ -15,6 +15,10 @@ import java.io.InputStream
  * @date: 2020/7/22 11:08 AM
  * @email: 56002982@qq.com
  * @des: 纹理工具
+ *
+ * 内容包括：
+ * 1、获取纹理[obtainTexture]
+ * 2、从 drawable 加载 bitmap [loadBitmap]
  */
 object TextureUtils {
 

@@ -3,7 +3,10 @@ package com.zinc.base.utils
 import kotlin.math.sqrt
 
 /**
- * 向量计算工具
+ * @author: Jiang Pengyong
+ * @date: 2020/8/2 1:33 PM
+ * @email: 56002982@qq.com
+ * @des: 向量计算工具
  */
 object VectorUtil {
 

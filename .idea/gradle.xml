@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/buffer" />
             <option value="$PROJECT_DIR$/light" />
             <option value="$PROJECT_DIR$/model_3d" />
             <option value="$PROJECT_DIR$/obj_3d" />

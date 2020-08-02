@@ -1,13 +1,27 @@
 package com.zinc.base.utils
 
 import android.opengl.Matrix
+import com.zinc.base.utils.MatrixState.MATRIX_STACK_DEEP
+import com.zinc.base.utils.MatrixState.getFinalMatrix
+import com.zinc.base.utils.MatrixState.mStack
+import com.zinc.base.utils.MatrixState.popMatrix
+import com.zinc.base.utils.MatrixState.pushMatrix
+import com.zinc.base.utils.MatrixState.rotate
+import com.zinc.base.utils.MatrixState.setCamera
+import com.zinc.base.utils.MatrixState.setLightLocation
+import com.zinc.base.utils.MatrixState.setProjectFrustum
+import com.zinc.base.utils.MatrixState.setProjectOrtho
+import com.zinc.base.utils.MatrixState.stackTop
+import com.zinc.base.utils.MatrixState.translate
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 /**
- * 矩阵类
- *
+ * @author: Jiang Pengyong
+ * @date: 2020/8/2 1:34 PM
+ * @email: 56002982@qq.com
+ * @des: 矩阵类
  * 可以设置的内容：
  * 1、栈管理[mStack]，栈深可以看 [MATRIX_STACK_DEEP]
  * -- 进栈[pushMatrix]

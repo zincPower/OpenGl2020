@@ -1,3 +1,4 @@
+include ':buffer'
 include ':model_3d'
 include ':obj_3d'
 include ':texture'

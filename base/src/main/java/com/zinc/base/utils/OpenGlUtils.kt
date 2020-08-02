@@ -3,6 +3,11 @@ package com.zinc.base.utils
 import android.content.res.Resources
 import android.opengl.GLES30
 import android.util.Log
+import com.zinc.base.utils.OpenGlUtils.checkGlError
+import com.zinc.base.utils.OpenGlUtils.createProgram
+import com.zinc.base.utils.OpenGlUtils.getAssetsBufferReader
+import com.zinc.base.utils.OpenGlUtils.loadFromAssetsFile
+import com.zinc.base.utils.OpenGlUtils.loadShader
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.InputStreamReader
@@ -10,10 +15,16 @@ import java.io.OutputStream
 import java.nio.charset.Charset
 
 /**
- * OpenGl 工具类
+ * @author: Jiang Pengyong
+ * @date: 2020/8/2 1:33 PM
+ * @email: 56002982@qq.com
+ * @des:  OpenGl 工具类
  * 内容包含：
  * 1、从 assert 加载内容[loadFromAssetsFile]
- * 2、
+ * 2、从 assert 获取流[getAssetsBufferReader]
+ * 3、创建程序[createProgram]
+ * 4、加载着色器[loadShader]
+ * 5、检测错误[checkGlError]
  */
 object OpenGlUtils {
 

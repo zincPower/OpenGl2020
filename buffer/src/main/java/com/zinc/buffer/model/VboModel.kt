@@ -1,4 +1,4 @@
-package com.zinc.obj_3d.model
+package com.zinc.buffer.model
 
 import android.content.Context
 import android.opengl.GLES30
@@ -8,6 +8,7 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.MatrixState.getFinalMatrix
 import com.zinc.base.utils.MatrixState.mMatrix
 import com.zinc.base.utils.OpenGlUtils
+import com.zinc.base.utils.VboUtils
 import com.zinc.base.utils.allocatFloatBuffer
 import java.nio.FloatBuffer
 
@@ -15,9 +16,9 @@ import java.nio.FloatBuffer
  * @author: Jiang Pengyong
  * @date: 2020/7/26 8:34 PM
  * @email: 56002982@qq.com
- * @des: 3D模型
+ * @des: 顶点缓冲区模型
  */
-class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel {
+class VboModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel {
 
     // 自定义渲染管线着色器程序id
     private var mProgram = 0
@@ -50,7 +51,11 @@ class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel 
     private var mNormalBuffer: FloatBuffer? = null
 
     //顶点纹理坐标数据缓冲
-    private var mTexCoorBuffer: FloatBuffer? = null
+    private var mTextureBuffer: FloatBuffer? = null
+
+    private var mVertexBufferId = 0
+    private var mNormalBufferId = 0
+    private var mTextureBufferId = 0
 
     private var vCount = 0
 
@@ -82,9 +87,27 @@ class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel 
     }
 
     override fun initVertexData() {
+        // 创建缓冲区
+        val vboBuffersId = VboUtils.createBuffer(3)
+
+        // 顶点缓冲id
+        mVertexBufferId = vboBuffersId[0]
+        // 法向量缓冲id
+        mNormalBufferId = vboBuffersId[1]
+        // 纹理缓冲id
+        mTextureBufferId = vboBuffersId[2]
+
         mVertexBuffer = allocatFloatBuffer(maxObjInfo.vertexData)
-        mTexCoorBuffer = allocatFloatBuffer(maxObjInfo.textureData)
+        VboUtils.bindBuffer(mVertexBufferId)
+        VboUtils.sendBufferData(maxObjInfo.vertexData.size * 4, mVertexBuffer)
+
         mNormalBuffer = allocatFloatBuffer(maxObjInfo.normalData)
+        VboUtils.bindBuffer(mNormalBufferId)
+        VboUtils.sendBufferData(maxObjInfo.normalData.size * 4, mNormalBuffer)
+
+        mTextureBuffer = allocatFloatBuffer(maxObjInfo.textureData)
+        VboUtils.bindBuffer(mTextureBufferId)
+        VboUtils.sendBufferData(maxObjInfo.textureData.size * 4, mTextureBuffer)
 
         vCount = maxObjInfo.vertexData.size / 3
     }
@@ -100,42 +123,54 @@ class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel 
         GLES30.glUniform3fv(maLightLocationHandle, 1, MatrixState.lightPositionFB)
         // 将摄像机位置传入着色器程序
         GLES30.glUniform3fv(maCameraHandle, 1, MatrixState.cameraFB)
-        // 将顶点位置数据传入渲染管线
-        GLES30.glVertexAttribPointer(
-            maPositionHandle,
-            3,
-            GLES30.GL_FLOAT,
-            false,
-            3 * 4,
-            mVertexBuffer
-        )
-        // 将顶点法向量数据传入渲染管线
-        GLES30.glVertexAttribPointer(
-            maNormalHandle,
-            3,
-            GLES30.GL_FLOAT,
-            false,
-            3 * 4,
-            mNormalBuffer
-        )
-        // 将顶点纹理坐标数据传入渲染管线
-        GLES30.glVertexAttribPointer(
-            maTexCoorHandle,
-            2,
-            GLES30.GL_FLOAT,
-            false,
-            2 * 4,
-            mTexCoorBuffer
-        )
 
         // 启用顶点位置、法向量、纹理坐标数据
         GLES30.glEnableVertexAttribArray(maPositionHandle)
         GLES30.glEnableVertexAttribArray(maNormalHandle)
         GLES30.glEnableVertexAttribArray(maTexCoorHandle)
 
+        // =================================== 使用顶点缓冲 start ====================================
+        VboUtils.bindBuffer(mVertexBufferId)
+        GLES30.glVertexAttribPointer(
+            maPositionHandle,
+            3,
+            GLES30.GL_FLOAT,
+            false,
+            3 * 4,
+            0
+        )
+        // =================================== 使用顶点缓冲 end ======================================
+
+        // =================================== 使用纹理缓冲 start ====================================
+        VboUtils.bindBuffer(mTextureBufferId)
+        GLES30.glVertexAttribPointer(
+            maTexCoorHandle,
+            2,
+            GLES30.GL_FLOAT,
+            false,
+            2 * 4,
+            0
+        )
+        // =================================== 使用纹理缓冲 end ======================================
+
+        // =================================== 使用法向量缓冲 start ==================================
+        VboUtils.bindBuffer(mNormalBufferId)
+        GLES30.glVertexAttribPointer(
+            maNormalHandle,
+            3,
+            GLES30.GL_FLOAT,
+            false,
+            3 * 4,
+            0
+        )
+        // =================================== 使用法向量缓冲 end ====================================
+
         // 绑定纹理
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0)
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId)
+
+        // !!!!!!!!!!!!!!! 要解绑
+        VboUtils.unbindBuffer()
 
         // 绘制加载的物体
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, vCount)
