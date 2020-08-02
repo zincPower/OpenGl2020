@@ -1,4 +1,4 @@
-package com.zinc.buffer.model
+package com.zinc.buffer.model.vbo
 
 import android.content.Context
 import android.opengl.GLES30
@@ -8,7 +8,7 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.MatrixState.getFinalMatrix
 import com.zinc.base.utils.MatrixState.mMatrix
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.VboUtils
+import com.zinc.base.utils.buffer.VboUtils
 import com.zinc.base.utils.allocatFloatBuffer
 import java.nio.FloatBuffer
 

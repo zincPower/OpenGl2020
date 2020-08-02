@@ -1,6 +1,7 @@
 package com.zinc.buffer.egl
 
 import android.content.Context
+import com.zinc.base.IModel
 import com.zinc.base.control.StretchMode
 import com.zinc.base.egl.BaseSceneRender
 import com.zinc.base.utils.Load3DMaxObjUtils
@@ -8,10 +9,10 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.TextureUtils
 import com.zinc.buffer.R
 import com.zinc.buffer.model.ControlBufferInfo
-import com.zinc.buffer.model.VboModel
+import com.zinc.buffer.model.vao.VaoModel
 
 class BufferRender(context: Context, private val controlBufferInfo: ControlBufferInfo) :
-    BaseSceneRender<VboModel>(context) {
+    BaseSceneRender<IModel>(context) {
 
     private var textureId = 0
 
@@ -21,8 +22,12 @@ class BufferRender(context: Context, private val controlBufferInfo: ControlBuffe
 
         val maxObjInfo = Load3DMaxObjUtils.load("teapot.obj", context.resources, textureFlip = true)
 
-        // 创建圆柱骨架对象
-        mData = VboModel(context, maxObjInfo)
+//        mData = when (controlBufferInfo.type) {
+//            BufferType.VBO -> VboModel(context, maxObjInfo)
+//            BufferType.VAO -> VaoModel(context, maxObjInfo)
+//        }
+
+        mData = VaoModel(context, maxObjInfo)
     }
 
     override fun getFar(): Float = 1000f
@@ -31,7 +36,7 @@ class BufferRender(context: Context, private val controlBufferInfo: ControlBuffe
 
     override fun getSeeZ(): Float = 1f
 
-    override fun drawData(data: VboModel) {
+    override fun drawData(data: IModel) {
         MatrixState.translate(0f, -20f, -100f)
 
         // 绕X轴转动

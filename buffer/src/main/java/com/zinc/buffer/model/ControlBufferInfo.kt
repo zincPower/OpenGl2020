@@ -6,7 +6,7 @@ package com.zinc.buffer.model
  * @email: 56002982@qq.com
  * @des: 控制缓冲区的信息
  */
-data class ControlBufferInfo(var type: BufferType = BufferType.VBO)
+data class ControlBufferInfo(var type: BufferType = BufferType.VAO)
 
 /**
  * @author: Jiang Pengyong
@@ -15,5 +15,6 @@ data class ControlBufferInfo(var type: BufferType = BufferType.VBO)
  * @des: 缓冲区类型
  */
 enum class BufferType {
-    VBO     // 顶点缓冲区
+    VBO,    // 顶点缓冲区
+    VAO,    // 顶点数组对象
 }

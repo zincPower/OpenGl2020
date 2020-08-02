@@ -1,14 +1,7 @@
-package com.zinc.base.utils
+package com.zinc.base.utils.buffer
 
 import android.opengl.GLES30
 import java.nio.Buffer
-
-/**
- * @author: Jiang Pengyong
- * @date: 2020/8/2 3:35 PM
- * @email: 56002982@qq.com
- * @des: 缓冲工具类集
- */
 
 /**
  * @author: Jiang Pengyong
