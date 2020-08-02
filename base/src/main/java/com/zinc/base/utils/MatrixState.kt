@@ -107,7 +107,7 @@ object MatrixState {
 
     // 摄像机位置
     private var llbb: ByteBuffer = ByteBuffer.allocateDirect(3 * 4)
-    private var cameraLocation = FloatArray(3)
+    var cameraLocation = FloatArray(3)
 
     /**
      * 设置摄像机

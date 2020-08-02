@@ -9,7 +9,7 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.TextureUtils
 import com.zinc.buffer.R
 import com.zinc.buffer.model.ControlBufferInfo
-import com.zinc.buffer.model.vao.VaoModel
+import com.zinc.buffer.model.ubo.UboModel
 
 class BufferRender(context: Context, private val controlBufferInfo: ControlBufferInfo) :
     BaseSceneRender<IModel>(context) {
@@ -25,9 +25,10 @@ class BufferRender(context: Context, private val controlBufferInfo: ControlBuffe
 //        mData = when (controlBufferInfo.type) {
 //            BufferType.VBO -> VboModel(context, maxObjInfo)
 //            BufferType.VAO -> VaoModel(context, maxObjInfo)
+//            BufferType.UBO -> UboModel(context, maxObjInfo)
 //        }
 
-        mData = VaoModel(context, maxObjInfo)
+        mData = UboModel(context, maxObjInfo)
     }
 
     override fun getFar(): Float = 1000f
