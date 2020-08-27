@@ -1,10 +1,8 @@
 package com.zinc.model_3d.model.cylinder
 
 import android.content.Context
-import android.opengl.GLES30
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
-import com.zinc.model_3d.model.DrawType
 import com.zinc.model_3d.model.Model3DBaseModel
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -143,7 +141,7 @@ class Circle(
             textures[stCount++] = (0.5f - 0.5f * cos(radianNext)).toFloat()
             curAngle += span
         }
-        mVertexBuffer = allocatFloatBuffer(vertices)
+        mVertexBuffer = allocateFloatBuffer(vertices)
 
         //法向量数据初始化
         val normals = FloatArray(vertices.size)
@@ -154,10 +152,10 @@ class Circle(
             normals[i + 2] = 1f
             i += 3
         }
-        mNormalBuffer = allocatFloatBuffer(normals)
+        mNormalBuffer = allocateFloatBuffer(normals)
 
         // 纹理坐标数据初始化
-        mTexCoorBuffer = allocatFloatBuffer(textures)
+        mTexCoorBuffer = allocateFloatBuffer(textures)
 
     }
 

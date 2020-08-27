@@ -1,8 +1,9 @@
-package com.zinc.buffer.egl
+package com.zinc.buffer.egl.simple
 
 import android.content.Context
 import android.util.AttributeSet
 import com.zinc.base.egl.BaseSurfaceView
+import com.zinc.buffer.egl.simple.BufferRender
 import com.zinc.buffer.model.ControlBufferInfo
 
 class BufferSurfaceView : BaseSurfaceView<BufferRender, ControlBufferInfo> {

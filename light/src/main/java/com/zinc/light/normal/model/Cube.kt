@@ -5,7 +5,7 @@ import android.opengl.GLES30
 import com.zinc.base.IModel
 import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import java.nio.FloatBuffer
 
 /**
@@ -187,7 +187,7 @@ class Cube(context: Context, private val mControlCubeInfo: ControlCubeInfo) : IM
             lengthHalf, -lengthHalf, -lengthHalf
         )
 
-        mVertexBuffer = allocatFloatBuffer(vertices)
+        mVertexBuffer = allocateFloatBuffer(vertices)
 
         val normals = floatArrayOf(
             // 正面
@@ -239,8 +239,8 @@ class Cube(context: Context, private val mControlCubeInfo: ControlCubeInfo) : IM
             0f, -1f, 0f
         )
         //创建绘制顶点法向量缓冲
-        mFaceNormalBuffer = allocatFloatBuffer(normals)
-        mPointNormalBuffer = allocatFloatBuffer(vertices)
+        mFaceNormalBuffer = allocateFloatBuffer(normals)
+        mPointNormalBuffer = allocateFloatBuffer(vertices)
     }
 
     /**

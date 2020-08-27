@@ -5,7 +5,7 @@ import android.opengl.GLES30
 import com.zinc.base.IModel
 import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.texture.stretch.control.TextureSize
 import java.nio.FloatBuffer
 
@@ -54,12 +54,12 @@ class StretchModel(context: Context, private val textureSize: TextureSize) : IMo
         val vertex = OpenGlUtils.loadFromAssetsFile("vertex.glsl", context.resources)
         val fragment = OpenGlUtils.loadFromAssetsFile("fragment.glsl", context.resources)
         mProgram = OpenGlUtils.createProgram(vertex, fragment)
-        //获取程序中顶点位置属性引用
-        maPositionHandle = GLES30.glGetAttribLocation(mProgram, "aPosition");
-        //获取程序中顶点纹理坐标属性引用
-        maTexCoorHandle = GLES30.glGetAttribLocation(mProgram, "aTexCoor");
-        //获取程序中总变换矩阵引用
-        muMVPMatrixHandle = GLES30.glGetUniformLocation(mProgram, "uMVPMatrix");
+        // 获取程序中顶点位置属性引用
+        maPositionHandle = GLES30.glGetAttribLocation(mProgram, "aPosition")
+        // 获取程序中顶点纹理坐标属性引用
+        maTexCoorHandle = GLES30.glGetAttribLocation(mProgram, "aTexCoor")
+        // 获取程序中总变换矩阵引用
+        muMVPMatrixHandle = GLES30.glGetUniformLocation(mProgram, "uMVPMatrix")
     }
 
     override fun initVertexData() {
@@ -72,7 +72,7 @@ class StretchModel(context: Context, private val textureSize: TextureSize) : IMo
             -1f, 1f, 0f
         )
         vCount = vertices.size / 3
-        mVertexBuffer = allocatFloatBuffer(vertices)
+        mVertexBuffer = allocateFloatBuffer(vertices)
 
         val texCoor = floatArrayOf(
             0f, 0f,
@@ -82,7 +82,7 @@ class StretchModel(context: Context, private val textureSize: TextureSize) : IMo
             sRange, 0f,
             0f, 0f
         )
-        mTexCoorBuffer = allocatFloatBuffer(texCoor)
+        mTexCoorBuffer = allocateFloatBuffer(texCoor)
     }
 
     override fun draw(textureId: Int) {

@@ -5,7 +5,7 @@ import android.opengl.GLES30
 import com.zinc.base.IModel
 import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import java.lang.Math.toRadians
 import java.nio.FloatBuffer
 import kotlin.math.cos
@@ -156,9 +156,9 @@ class Ball(context: Context, controlBallInfo: ControlBallInfo) : IModel {
         }
 
         // 创建顶点坐标数据缓冲
-        vertexBuffer = allocatFloatBuffer(vertices)
+        vertexBuffer = allocateFloatBuffer(vertices)
         // 创建法向量数据缓冲
-        normalBuffer = allocatFloatBuffer(vertices)
+        normalBuffer = allocateFloatBuffer(vertices)
     }
 
     /**

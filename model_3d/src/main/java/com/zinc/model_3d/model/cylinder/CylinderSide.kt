@@ -1,10 +1,8 @@
 package com.zinc.model_3d.model.cylinder
 
 import android.content.Context
-import android.opengl.GLES30
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
-import com.zinc.model_3d.model.DrawType
 import com.zinc.model_3d.model.Model3DBaseModel
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -131,11 +129,11 @@ class CylinderSide(
         }
 
         // 顶点初始化
-        mVertexBuffer = allocatFloatBuffer(vertices)
+        mVertexBuffer = allocateFloatBuffer(vertices)
         // 法向量初始化
-        mNormalBuffer = allocatFloatBuffer(normals)
+        mNormalBuffer = allocateFloatBuffer(normals)
         // st坐标数据初始化
-        mTexCoorBuffer = allocatFloatBuffer(textures)
+        mTexCoorBuffer = allocateFloatBuffer(textures)
 
     }
 

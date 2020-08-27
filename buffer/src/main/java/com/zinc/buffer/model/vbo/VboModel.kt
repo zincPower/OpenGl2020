@@ -9,7 +9,7 @@ import com.zinc.base.utils.MatrixState.getFinalMatrix
 import com.zinc.base.utils.MatrixState.mMatrix
 import com.zinc.base.utils.OpenGlUtils
 import com.zinc.base.utils.buffer.VboUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import java.nio.FloatBuffer
 
 /**
@@ -97,15 +97,15 @@ class VboModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel {
         // 纹理缓冲id
         mTextureBufferId = vboBuffersId[2]
 
-        mVertexBuffer = allocatFloatBuffer(maxObjInfo.vertexData)
+        mVertexBuffer = allocateFloatBuffer(maxObjInfo.vertexData)
         VboUtils.bindBuffer(mVertexBufferId)
         VboUtils.sendBufferData(maxObjInfo.vertexData.size * 4, mVertexBuffer)
 
-        mNormalBuffer = allocatFloatBuffer(maxObjInfo.normalData)
+        mNormalBuffer = allocateFloatBuffer(maxObjInfo.normalData)
         VboUtils.bindBuffer(mNormalBufferId)
         VboUtils.sendBufferData(maxObjInfo.normalData.size * 4, mNormalBuffer)
 
-        mTextureBuffer = allocatFloatBuffer(maxObjInfo.textureData)
+        mTextureBuffer = allocateFloatBuffer(maxObjInfo.textureData)
         VboUtils.bindBuffer(mTextureBufferId)
         VboUtils.sendBufferData(maxObjInfo.textureData.size * 4, mTextureBuffer)
 

@@ -1,11 +1,9 @@
 package com.zinc.model_3d.model.cone
 
 import android.content.Context
-import android.opengl.GLES30
 import com.zinc.base.utils.VectorUtil
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
-import com.zinc.model_3d.model.DrawType
 import com.zinc.model_3d.model.Model3DBaseModel
 import kotlin.math.ceil
 import kotlin.math.cos
@@ -98,9 +96,9 @@ class ConeSide(
             i += 3
         }
 
-        mVertexBuffer = allocatFloatBuffer(vertices)
-        mNormalBuffer = allocatFloatBuffer(normals)
-        mTexCoorBuffer = allocatFloatBuffer(textures)
+        mVertexBuffer = allocateFloatBuffer(vertices)
+        mNormalBuffer = allocateFloatBuffer(normals)
+        mTexCoorBuffer = allocateFloatBuffer(textures)
 
     }
 

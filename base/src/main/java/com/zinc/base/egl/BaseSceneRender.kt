@@ -21,7 +21,10 @@ abstract class BaseSceneRender<DATA : IModel>(context: Context) : GLSurfaceView.
 
     protected val mContext: WeakReference<Context> = WeakReference(context)
 
-    private var surfaceViewRatio = 0f
+    protected var mSurfaceViewRatio = 0f
+
+    protected var mScreenWidth = 0
+    protected var mScreenHeight = 0
 
     var yAngle: Float = 0f
     var xAngle: Float = 0f
@@ -44,20 +47,23 @@ abstract class BaseSceneRender<DATA : IModel>(context: Context) : GLSurfaceView.
         // 设置视窗大小及位置
         GLES30.glViewport(0, 0, width, height)
 
+        mScreenWidth = width
+        mScreenHeight = height
+
         // 计算GLSurfaceView的宽高比
-        surfaceViewRatio = width.toFloat() / height.toFloat()
+        mSurfaceViewRatio = width.toFloat() / height.toFloat()
 
         if (isUseProjectFrustum()) {
             // 调用此方法计算产生透视投影矩阵
             MatrixState.setProjectFrustum(
-                -surfaceViewRatio, surfaceViewRatio,
+                -mSurfaceViewRatio, mSurfaceViewRatio,
                 -1f, 1f,
                 getNear(), getFar()
             )
         } else {
             // 正交投影
             MatrixState.setProjectOrtho(
-                -surfaceViewRatio, surfaceViewRatio,
+                -mSurfaceViewRatio, mSurfaceViewRatio,
                 -1f, 1f,
                 getNear(), getFar()
             )

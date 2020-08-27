@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zinc.buffer.egl.simple.BufferSurfaceView
+    <com.zinc.buffer.egl.fbo.FboBufferSurfaceView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

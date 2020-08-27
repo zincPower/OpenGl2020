@@ -1,7 +1,7 @@
 package com.zinc.model_3d.model.torus
 
 import android.content.Context
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
 import com.zinc.model_3d.model.Model3DBaseModel
 import kotlin.math.ceil
@@ -119,9 +119,9 @@ class Torus(
 
         val textures: FloatArray = cullTexCoor(alST, alFaceIndex) //生成卷绕后纹理坐标数组值
 
-        mVertexBuffer = allocatFloatBuffer(vertices)
-        mTexCoorBuffer = allocatFloatBuffer(textures)
-        mNormalBuffer = allocatFloatBuffer(vertices)
+        mVertexBuffer = allocateFloatBuffer(vertices)
+        mTexCoorBuffer = allocateFloatBuffer(textures)
+        mNormalBuffer = allocateFloatBuffer(vertices)
     }
 
     /**

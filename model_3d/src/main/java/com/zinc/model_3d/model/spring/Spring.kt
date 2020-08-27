@@ -2,7 +2,7 @@ package com.zinc.model_3d.model.spring
 
 import android.content.Context
 import android.opengl.GLES30
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.model_3d.model.ControlModel3DInfo
 import com.zinc.model_3d.model.DrawType
 import com.zinc.model_3d.model.Model3DBaseModel
@@ -107,9 +107,9 @@ class Spring(
         //计算卷绕后纹理坐标
         val textures = cullTexCoor(alST, alFaceIndex)
 
-        mVertexBuffer = allocatFloatBuffer(vertices)
-        mTexCoorBuffer = allocatFloatBuffer(textures)
-        mNormalBuffer = allocatFloatBuffer(vertices)
+        mVertexBuffer = allocateFloatBuffer(vertices)
+        mTexCoorBuffer = allocateFloatBuffer(textures)
+        mNormalBuffer = allocateFloatBuffer(vertices)
 
     }
 

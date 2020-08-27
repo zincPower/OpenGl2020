@@ -8,9 +8,8 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.MatrixState.getFinalMatrix
 import com.zinc.base.utils.MatrixState.mMatrix
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.base.utils.buffer.UboUtils
-import com.zinc.base.utils.buffer.VboUtils
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -76,20 +75,16 @@ class UboModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel {
         muMVPMatrixHandle = GLES30.glGetUniformLocation(mProgram, "uMVPMatrix")
         // 获取位置、旋转变换矩阵引用
         muMMatrixHandle = GLES30.glGetUniformLocation(mProgram, "uMMatrix")
-        // 获取程序中光源位置引用
-//        maLightLocationHandle = GLES30.glGetUniformLocation(mProgram, "uLightLocation")
         // 获取程序中顶点纹理坐标属性引用
         maTexCoorHandle = GLES30.glGetAttribLocation(mProgram, "aTexCoor")
-        // 获取程序中摄像机位置引用
-//        maCameraHandle = GLES30.glGetUniformLocation(mProgram, "uCamera")
 
         initUBO()
     }
 
     override fun initVertexData() {
-        mVertexBuffer = allocatFloatBuffer(maxObjInfo.vertexData)
-        mTextureBuffer = allocatFloatBuffer(maxObjInfo.textureData)
-        mNormalBuffer = allocatFloatBuffer(maxObjInfo.normalData)
+        mVertexBuffer = allocateFloatBuffer(maxObjInfo.vertexData)
+        mTextureBuffer = allocateFloatBuffer(maxObjInfo.textureData)
+        mNormalBuffer = allocateFloatBuffer(maxObjInfo.normalData)
 
         vCount = maxObjInfo.vertexData.size / 3
     }

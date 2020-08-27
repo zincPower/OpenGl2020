@@ -8,7 +8,7 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.MatrixState.getFinalMatrix
 import com.zinc.base.utils.MatrixState.mMatrix
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import com.zinc.base.utils.buffer.VaoUtils
 import com.zinc.base.utils.buffer.VboUtils
 import java.nio.FloatBuffer
@@ -45,14 +45,14 @@ class VaoModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel {
     // 顶点纹理坐标属性引用
     private var maTexCoorHandle = 0
 
-    //顶点坐标数据缓冲
-    private var mVertexBuffer: FloatBuffer? = null
-
-    //顶点法向量数据缓冲
-    private var mNormalBuffer: FloatBuffer? = null
-
-    //顶点纹理坐标数据缓冲
-    private var mTextureBuffer: FloatBuffer? = null
+//    //顶点坐标数据缓冲
+//    private var mVertexBuffer: FloatBuffer? = null
+//
+//    //顶点法向量数据缓冲
+//    private var mNormalBuffer: FloatBuffer? = null
+//
+//    //顶点纹理坐标数据缓冲
+//    private var mTextureBuffer: FloatBuffer? = null
 
     private var mVertexBufferId = 0
     private var mNormalBufferId = 0
@@ -100,15 +100,15 @@ class VaoModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel {
         // 纹理缓冲id
         mTextureBufferId = vboBuffersId[2]
 
-        mVertexBuffer = allocatFloatBuffer(maxObjInfo.vertexData)
+        val mVertexBuffer = allocateFloatBuffer(maxObjInfo.vertexData)
         VboUtils.bindBuffer(mVertexBufferId)
         VboUtils.sendBufferData(maxObjInfo.vertexData.size * 4, mVertexBuffer)
 
-        mNormalBuffer = allocatFloatBuffer(maxObjInfo.normalData)
+        val mNormalBuffer = allocateFloatBuffer(maxObjInfo.normalData)
         VboUtils.bindBuffer(mNormalBufferId)
         VboUtils.sendBufferData(maxObjInfo.normalData.size * 4, mNormalBuffer)
 
-        mTextureBuffer = allocatFloatBuffer(maxObjInfo.textureData)
+        val mTextureBuffer = allocateFloatBuffer(maxObjInfo.textureData)
         VboUtils.bindBuffer(mTextureBufferId)
         VboUtils.sendBufferData(maxObjInfo.textureData.size * 4, mTextureBuffer)
 

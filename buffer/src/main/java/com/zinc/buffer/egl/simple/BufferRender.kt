@@ -1,4 +1,4 @@
-package com.zinc.buffer.egl
+package com.zinc.buffer.egl.simple
 
 import android.content.Context
 import com.zinc.base.IModel
@@ -31,12 +31,6 @@ class BufferRender(context: Context, private val controlBufferInfo: ControlBuffe
         mData = UboModel(context, maxObjInfo)
     }
 
-    override fun getFar(): Float = 1000f
-
-    override fun getNear(): Float = 2f
-
-    override fun getSeeZ(): Float = 1f
-
     override fun drawData(data: IModel) {
         MatrixState.translate(0f, -20f, -100f)
 
@@ -49,5 +43,14 @@ class BufferRender(context: Context, private val controlBufferInfo: ControlBuffe
 
         data.draw(textureId)
     }
+
+    override fun getFar(): Float = 1000f
+
+    override fun getNear(): Float = 2f
+
+    override fun getSeeZ(): Float = 1f
+
+
+
 
 }

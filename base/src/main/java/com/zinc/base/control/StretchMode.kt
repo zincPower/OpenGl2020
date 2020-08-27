@@ -14,6 +14,7 @@ enum class StretchMode(val value: Int) {
     REPEAT(GLES30.GL_REPEAT),
 
     // 镜像
-    MIRROR(GLES30.GL_MIRRORED_REPEAT)
+    MIRROR(GLES30.GL_MIRRORED_REPEAT),
+//    CLAMP(GLES30.GL_CLAMP_TO_EDGE)
 
 }

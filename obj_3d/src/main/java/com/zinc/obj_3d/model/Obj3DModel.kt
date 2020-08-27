@@ -8,7 +8,7 @@ import com.zinc.base.utils.MatrixState
 import com.zinc.base.utils.MatrixState.getFinalMatrix
 import com.zinc.base.utils.MatrixState.mMatrix
 import com.zinc.base.utils.OpenGlUtils
-import com.zinc.base.utils.allocatFloatBuffer
+import com.zinc.base.utils.allocateFloatBuffer
 import java.nio.FloatBuffer
 
 /**
@@ -82,9 +82,9 @@ class Obj3DModel(context: Context, private val maxObjInfo: MaxObjInfo) : IModel 
     }
 
     override fun initVertexData() {
-        mVertexBuffer = allocatFloatBuffer(maxObjInfo.vertexData)
-        mTexCoorBuffer = allocatFloatBuffer(maxObjInfo.textureData)
-        mNormalBuffer = allocatFloatBuffer(maxObjInfo.normalData)
+        mVertexBuffer = allocateFloatBuffer(maxObjInfo.vertexData)
+        mTexCoorBuffer = allocateFloatBuffer(maxObjInfo.textureData)
+        mNormalBuffer = allocateFloatBuffer(maxObjInfo.normalData)
 
         vCount = maxObjInfo.vertexData.size / 3
     }
