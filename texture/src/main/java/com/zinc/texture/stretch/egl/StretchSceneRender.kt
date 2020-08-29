@@ -7,7 +7,7 @@ import com.zinc.base.utils.TextureUtils
 import com.zinc.texture.R
 import com.zinc.texture.stretch.control.TextureSize
 import com.zinc.texture.stretch.model.ControlStretchInfo
-import com.zinc.texture.stretch.model.StretchModel
+import com.zinc.texture.stretch.model.StretchDrawer
 
 /**
  * @author: Jiang Pengyong
@@ -16,7 +16,7 @@ import com.zinc.texture.stretch.model.StretchModel
  * @des: 拉伸方式
  */
 class StretchSceneRender(context: Context, private val controlStretchInfo: ControlStretchInfo) :
-    BaseSceneRender<StretchModel>(context) {
+    BaseSceneRender<StretchDrawer>(context) {
 
     // 系统分配的拉伸纹理id
     private var mTextureEdgeId = 0
@@ -28,7 +28,7 @@ class StretchSceneRender(context: Context, private val controlStretchInfo: Contr
     private var mTextureMirrorId = 0
 
     // 纹理矩形数组
-    private val mStretchModelList: Array<StretchModel?> = arrayOfNulls(3)
+    private val mStretchDrawerList: Array<StretchDrawer?> = arrayOfNulls(3)
 
     // 当前纹理id
     private var mCurrTextureId = 0
@@ -50,18 +50,18 @@ class StretchSceneRender(context: Context, private val controlStretchInfo: Contr
             StretchMode.MIRROR
         )
 
-        mStretchModelList[0] = StretchModel(context, TextureSize.TEXTURE1_1)
-        mStretchModelList[1] = StretchModel(context, TextureSize.TEXTURE4_2)
-        mStretchModelList[2] = StretchModel(context, TextureSize.TEXTURE4_4)
+        mStretchDrawerList[0] = StretchDrawer(context, TextureSize.TEXTURE1_1)
+        mStretchDrawerList[1] = StretchDrawer(context, TextureSize.TEXTURE4_2)
+        mStretchDrawerList[2] = StretchDrawer(context, TextureSize.TEXTURE4_4)
     }
 
     override fun preDraw() {
         super.preDraw()
 
         mData = when (controlStretchInfo.textureSize) {
-            TextureSize.TEXTURE4_4 -> mStretchModelList[2]
-            TextureSize.TEXTURE1_1 -> mStretchModelList[0]
-            TextureSize.TEXTURE4_2 -> mStretchModelList[1]
+            TextureSize.TEXTURE4_4 -> mStretchDrawerList[2]
+            TextureSize.TEXTURE1_1 -> mStretchDrawerList[0]
+            TextureSize.TEXTURE4_2 -> mStretchDrawerList[1]
         }
 
         mCurrTextureId = when (controlStretchInfo.stretchMode) {
@@ -76,7 +76,7 @@ class StretchSceneRender(context: Context, private val controlStretchInfo: Contr
         return false
     }
 
-    override fun drawData(data: StretchModel) {
+    override fun drawData(data: StretchDrawer) {
         //绘制当前纹理矩形
         data.draw(mCurrTextureId)
     }

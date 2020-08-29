@@ -16,7 +16,7 @@ import java.nio.FloatBuffer
  * @email: 56002982@qq.com
  * @des: 拉伸模型
  */
-class StretchModel(context: Context, private val textureSize: TextureSize) : IModel {
+class StretchDrawer(context: Context, private val textureSize: TextureSize) : IModel {
 
     // 自定义渲染管线着色器程序id
     private var mProgram = 0

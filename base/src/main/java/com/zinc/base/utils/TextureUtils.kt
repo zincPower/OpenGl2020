@@ -29,9 +29,22 @@ object TextureUtils {
      * @param mode 拉伸模式
      * @return 返回的纹理id，加载失败返回-1
      */
-    fun obtainTexture(context: Context, drawable: Int, mode: StretchMode): Int {
+    fun obtainTexture(
+        context: Context,
+        drawable: Int,
+        mode: StretchMode,
+        minSample: Int = GLES30.GL_NEAREST,
+        magSample: Int = GLES30.GL_LINEAR,
+        isNeedRecycle: Boolean = true
+    ): Int {
         val bitmap = loadBitmap(context, drawable) ?: return -1
-        return initTexture(mode, bitmap)
+        return initTexture(
+            mode,
+            bitmap,
+            minSample,
+            magSample,
+            isNeedRecycle
+        )
     }
 
     /**
@@ -56,9 +69,17 @@ object TextureUtils {
     /**
      * 初始化纹理
      * @param mode 拉伸模式
+     * @param bitmap 纹理图
+     * @param isNeedRecycle 是否需要回收纹理图
      * @return 纹理id
      */
-    fun initTexture(mode: StretchMode, bitmap: Bitmap): Int {
+    fun initTexture(
+        mode: StretchMode,
+        bitmap: Bitmap,
+        minSample: Int = GLES30.GL_NEAREST,
+        magSample: Int = GLES30.GL_LINEAR,
+        isNeedRecycle: Boolean = true
+    ): Int {
         // 用于记录生成的纹理id
         val textures = IntArray(1)
         GLES30.glGenTextures(
@@ -72,58 +93,58 @@ object TextureUtils {
         // 绑定纹理id，后面的操作就只会对这纹理操作
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId)
         // 设置MIN采样方式
-        GLES30.glTexParameterf(
+        GLES30.glTexParameteri(
             GLES30.GL_TEXTURE_2D,
             GLES30.GL_TEXTURE_MIN_FILTER,
-            GLES30.GL_NEAREST.toFloat()
+            minSample
         )
         // 设置MAG采样方式
-        GLES30.glTexParameterf(
+        GLES30.glTexParameteri(
             GLES30.GL_TEXTURE_2D,
             GLES30.GL_TEXTURE_MAG_FILTER,
-            GLES30.GL_LINEAR.toFloat()
+            magSample
         )
         when (mode) {
             StretchMode.EDGE -> {
                 // S轴为截取拉伸方式
-                GLES30.glTexParameterf(
+                GLES30.glTexParameteri(
                     GLES30.GL_TEXTURE_2D,
                     GLES30.GL_TEXTURE_WRAP_S,
-                    GLES30.GL_CLAMP_TO_EDGE.toFloat()
+                    GLES30.GL_CLAMP_TO_EDGE
                 )
                 // T轴为截取拉伸方式
-                GLES30.glTexParameterf(
+                GLES30.glTexParameteri(
                     GLES30.GL_TEXTURE_2D,
                     GLES30.GL_TEXTURE_WRAP_T,
-                    GLES30.GL_CLAMP_TO_EDGE.toFloat()
+                    GLES30.GL_CLAMP_TO_EDGE
                 )
             }
             StretchMode.MIRROR -> {
                 // S轴为镜像重复拉伸方式
-                GLES30.glTexParameterf(
+                GLES30.glTexParameteri(
                     GLES30.GL_TEXTURE_2D,
                     GLES30.GL_TEXTURE_WRAP_S,
-                    GLES30.GL_MIRRORED_REPEAT.toFloat()
+                    GLES30.GL_MIRRORED_REPEAT
                 )
                 // T轴为镜像重复拉伸方式
-                GLES30.glTexParameterf(
+                GLES30.glTexParameteri(
                     GLES30.GL_TEXTURE_2D,
                     GLES30.GL_TEXTURE_WRAP_T,
-                    GLES30.GL_MIRRORED_REPEAT.toFloat()
+                    GLES30.GL_MIRRORED_REPEAT
                 )
             }
             StretchMode.REPEAT -> {
                 // S轴为重复拉伸方式
-                GLES30.glTexParameterf(
+                GLES30.glTexParameteri(
                     GLES30.GL_TEXTURE_2D,
                     GLES30.GL_TEXTURE_WRAP_S,
-                    GLES30.GL_REPEAT.toFloat()
+                    GLES30.GL_REPEAT
                 )
                 // T轴为重复拉伸方式
-                GLES30.glTexParameterf(
+                GLES30.glTexParameteri(
                     GLES30.GL_TEXTURE_2D,
                     GLES30.GL_TEXTURE_WRAP_T,
-                    GLES30.GL_REPEAT.toFloat()
+                    GLES30.GL_REPEAT
                 )
             }
         }
@@ -136,7 +157,10 @@ object TextureUtils {
             GLUtils.getType(bitmap),
             0 //纹理边框尺寸
         )
-        bitmap.recycle() //纹理加载成功后释放图片
+
+        if (isNeedRecycle) {
+            bitmap.recycle() //纹理加载成功后释放图片
+        }
 
         return textureId
     }

@@ -105,6 +105,13 @@ object MatrixState {
         Matrix.rotateM(mMatrix, 0, angle, x, y, z)
     }
 
+    /**
+     * 缩放
+     */
+    fun scale(x: Float, y: Float, z: Float) {
+        Matrix.scaleM(mMatrix, 0, x, y, z)
+    }
+
     // 摄像机位置
     private var llbb: ByteBuffer = ByteBuffer.allocateDirect(3 * 4)
     var cameraLocation = FloatArray(3)
