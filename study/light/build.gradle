@@ -4,8 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     defaultConfig {
-        applicationId project.application_id
+        applicationId "${project.application_id}.light"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -16,8 +17,8 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
 }
 
 dependencies {
-
 }

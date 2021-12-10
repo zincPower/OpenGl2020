@@ -1,13 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.3.72"
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,8 +18,58 @@ allprojects {
         google()
         jcenter()
     }
+
+    afterEvaluate {
+        configProject(it)
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+/**
+ * 配置 project
+ * @param curProject 当前 project
+ */
+private void configProject(Project curProject) {
+    Object android = curProject.extensions.findByName("android")
+    // 不是 Android 模块
+    if (android == null) {
+        return
+    }
+
+    if (curProject == rootProject) {
+        return
+    }
+
+    configForAllModule(android, curProject)
+}
+
+
+/**
+ * 配置全部 module
+ */
+private void configForAllModule(Object android, Project curProject) {
+    // 配置 android 基础属性
+    android.compileSdkVersion = project.compile_sdk_version as int
+    android.buildToolsVersion = project.build_tools_version
+    android.defaultConfig.minSdkVersion = project.min_sdk_version as int
+    android.defaultConfig.targetSdkVersion = project.target_sdk_version as int
+    android.defaultConfig.versionCode = project.version_code as int
+    android.defaultConfig.versionName = project.version
+
+    // 添加 java 1.8
+    android.compileOptions.sourceCompatibility = JavaVersion.VERSION_1_8
+    android.compileOptions.targetCompatibility = JavaVersion.VERSION_1_8
+    android.kotlinOptions.jvmTarget = "1.8"
+
+    // 配置依赖
+    curProject.apply plugin: 'kotlin-kapt'
+    // 配置依赖
+    curProject.dependencies.add("implementation", "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    curProject.dependencies.add("implementation", "androidx.core:core-ktx:$core_ktx_version")
+    curProject.dependencies.add("implementation", "androidx.appcompat:appcompat:$app_compat_version")
+    curProject.dependencies.add("implementation", "androidx.constraintlayout:constraintlayout:$constraint_layout_version")
 }

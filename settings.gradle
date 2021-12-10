@@ -1,8 +1,14 @@
-include ':buffer'
-include ':model_3d'
-include ':obj_3d'
-include ':texture'
-include ':base'
-include ':light'
+// study 夹
+include ':study:buffer'
+include ':study:model_3d'
+include ':study:obj_3d'
+include ':study:texture'
+include ':study:base'
+include ':study:light'
 include ':app'
+
+// OpenGL 对象化
+include ':egl_object'
+
+
 rootProject.name = "OpenGl2020"

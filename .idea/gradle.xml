@@ -4,7 +4,7 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="PLATFORM" />
+        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="1.8" />
@@ -12,12 +12,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/base" />
-            <option value="$PROJECT_DIR$/buffer" />
-            <option value="$PROJECT_DIR$/light" />
-            <option value="$PROJECT_DIR$/model_3d" />
-            <option value="$PROJECT_DIR$/obj_3d" />
-            <option value="$PROJECT_DIR$/texture" />
+            <option value="$PROJECT_DIR$/egl_object" />
+            <option value="$PROJECT_DIR$/study" />
+            <option value="$PROJECT_DIR$/study/base" />
+            <option value="$PROJECT_DIR$/study/buffer" />
+            <option value="$PROJECT_DIR$/study/light" />
+            <option value="$PROJECT_DIR$/study/model_3d" />
+            <option value="$PROJECT_DIR$/study/obj_3d" />
+            <option value="$PROJECT_DIR$/study/texture" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
