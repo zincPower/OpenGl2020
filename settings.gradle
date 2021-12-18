@@ -10,5 +10,8 @@ include ':app'
 // OpenGL 对象化
 include ':egl_object'
 
+// OpenGL 试炼场
+include ':proving:opengl_proving'
 
 rootProject.name = "OpenGl2020"
+

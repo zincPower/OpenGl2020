@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/egl_object" />
+            <option value="$PROJECT_DIR$/proving" />
+            <option value="$PROJECT_DIR$/proving/opengl_proving" />
             <option value="$PROJECT_DIR$/study" />
             <option value="$PROJECT_DIR$/study/base" />
             <option value="$PROJECT_DIR$/study/buffer" />
