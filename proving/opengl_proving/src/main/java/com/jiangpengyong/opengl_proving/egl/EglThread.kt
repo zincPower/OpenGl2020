@@ -86,14 +86,29 @@ class EglThread(
         1f, 1f
     )
 
-    /**
-     * 顶点着色器
-     */
     private fun obtainGLES3XVertex() = "" +
             "#version 300 es\n" +
             "in vec4 vPosition;\n" +
+            "in vec2 vCoordinate;\n" +
+            "uniform mat4 vMatrix;\n" +
+            "out vec2 aCoordinate;\n" +
             "void main(){\n" +
-            "    gl_Position=vPosition;\n" +
+            "    gl_Position=vMatrix*vPosition;\n" +
+            "    aCoordinate=vCoordinate;\n" +
+            "}\n"
+
+    private fun obtainGLES3XFragment() = "" +
+            "#version 300 es\n" +
+            "precision mediump float;\n" +
+            "uniform sampler2D vTexture;\n" +
+            "out vec4 fragColor;\n" +
+            "in vec2 aCoordinate;\n" +
+            "void main(){\n" +
+            "  vec4 color = texture(vTexture, aCoordinate);\n" +
+            "  float colorR = (color.r + color.g + color.b) / 3.0;\n" +
+            "  float colorG = (color.r + color.g + color.b) / 3.0;\n" +
+            "  float colorB = (color.r + color.g + color.b) / 3.0;\n" +
+            "  fragColor = vec4(colorR, colorG, colorB, color.a);\n" +
             "}\n"
 
     private fun obtainGLES2XVertex() = "" +
@@ -106,23 +121,12 @@ class EglThread(
             "    aCoordinate=vCoordinate;\n" +
             "}\n"
 
-    /**
-     * 片元着色器
-     */
-    private fun obtainGLES3XFragment() = "" +
-            "#version 300 es\n" +
-            "precision highp float;\n" +
-            "out vec4 fragColor;\n" +
-            "void main(){\n" +
-            "   fragColor=vec4(1.0, 1.0, 0.0, 1.0);\n" +
-            "}\n"
-
     private fun obtainGLES2XFragment() = "" +
             "precision mediump float;\n" +
             "uniform sampler2D vTexture;\n" +
             "varying vec2 aCoordinate;\n" +
             "void main(){\n" +
-            "   vec4 color = texture2D(vTexture,aCoordinate);\n" +
+            "  vec4 color = texture2D(vTexture, aCoordinate);\n" +
             "  float colorR = (color.r + color.g + color.b) / 3.0;\n" +
             "  float colorG = (color.r + color.g + color.b) / 3.0;\n" +
             "  float colorB = (color.r + color.g + color.b) / 3.0;\n" +
@@ -204,10 +208,24 @@ class EglThread(
         GLES20.glUniformMatrix4fv(mvMatrixHandle, 1, false, mMatrixState.getFinalMatrix(), 0)
 
         GLES20.glEnableVertexAttribArray(mvPositionHandle)
-        GLES20.glVertexAttribPointer(mvPositionHandle, 2, GLES20.GL_FLOAT, false, 0, mVerBuffer)
+        GLES20.glVertexAttribPointer(
+            mvPositionHandle,
+            2,
+            GLES20.GL_FLOAT,
+            false,
+            0,
+            mVerBuffer
+        )
 
         GLES20.glEnableVertexAttribArray(mvCoordinateHandle)
-        GLES20.glVertexAttribPointer(mvCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, mTexBuffer)
+        GLES20.glVertexAttribPointer(
+            mvCoordinateHandle,
+            2,
+            GLES20.GL_FLOAT,
+            false,
+            0,
+            mTexBuffer
+        )
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
 

@@ -8,17 +8,27 @@
         android:id="@+id/iv_bitmap"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_draw"
+        app:layout_constraintBottom_toTopOf="@id/tv_draw_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_draw"
+        android:id="@+id/tv_draw_3"
         style="@style/commonButtonStyle"
-        android:text="绘制"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="绘制 3x"
+        app:layout_constraintBottom_toTopOf="@id/tv_draw_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_bitmap" />
+
+    <TextView
+        android:id="@+id/tv_draw_2"
+        style="@style/commonButtonStyle"
+        android:text="绘制 2x"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_draw_3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
