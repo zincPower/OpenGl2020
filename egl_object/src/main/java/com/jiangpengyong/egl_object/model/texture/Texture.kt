@@ -192,10 +192,16 @@ class Texture(
         FboUtils.unbindFrameBuffer()
     }
 
+    fun initFBO() {
+        if (fboId == NOT_INIT) {
+            fboId = FboUtils.createFrameBuffer()
+        }
+    }
+
     /**
      * 绑定 FBO
      */
-    fun bindToFBO() {
+    fun bindToFBO(frameBufferTarget: Int = GLES20.GL_FRAMEBUFFER) {
         if (textureId == NOT_INIT) {
             Logger.e("Bind to FBO should create texture first.")
             return
@@ -205,8 +211,8 @@ class Texture(
             fboId = FboUtils.createFrameBuffer()
         }
 
-        FboUtils.bindFrameBuffer(fboId)
-        FboUtils.bindTextureToFrameBuffer(textureId, fboId)
+        FboUtils.bindFrameBuffer(fboId, frameBufferTarget)
+        FboUtils.bindTextureToFrameBuffer(textureId, fboId, frameBufferTarget)
     }
 
     /**

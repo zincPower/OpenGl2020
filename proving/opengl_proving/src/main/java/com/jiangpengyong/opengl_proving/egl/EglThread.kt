@@ -2,10 +2,12 @@ package com.jiangpengyong.opengl_proving.egl
 
 import android.graphics.Bitmap
 import android.opengl.GLES20
+import android.opengl.GLES30
 import android.opengl.GLUtils
 import com.jiangpengyong.egl_object.egl.EglController
 import com.jiangpengyong.egl_object.helper.TextureReaderHelper
 import com.jiangpengyong.egl_object.model.ByteBufferUtils.allocateFloatBuffer
+import com.jiangpengyong.egl_object.model.FboUtils
 import com.jiangpengyong.egl_object.model.MatrixState
 import com.jiangpengyong.egl_object.model.OpenGlUtils
 import com.jiangpengyong.egl_object.model.Program
@@ -94,7 +96,7 @@ class EglThread(
             "out vec2 aCoordinate;\n" +
             "void main(){\n" +
             "    gl_Position=vMatrix*vPosition;\n" +
-            "    aCoordinate=vCoordinate;\n" +
+            "    aCoordinate=vCoordinate.xy * 0.5 + 0.5;\n" +
             "}\n"
 
     private fun obtainGLES3XFragment() = "" +
@@ -148,11 +150,20 @@ class EglThread(
         clear()
         init()
 
-        mFBO.bindToFBO()
+        if (isUseGLES3) {
+            blitTextures()
+            OpenGlUtils.checkGlError("EGL THREAD0")
+        } else {
+            mFBO.bindToFBO()
+        }
         draw()
         mFBO.unbindToFBO()
+        OpenGlUtils.checkGlError("EGL THREAD1")
+
 
         callback.invoke(TextureReaderHelper.getBitmap(mFBO))
+
+        OpenGlUtils.checkGlError("EGL THREAD2")
 
         release()
     }
@@ -231,6 +242,61 @@ class EglThread(
 
         GLES20.glDisableVertexAttribArray(mvPositionHandle)
         GLES20.glDisableVertexAttribArray(mvCoordinateHandle)
+    }
+
+    private fun blitTextures() {
+        mTexture.initFBO()
+        FboUtils.bindFrameBuffer(
+            mTexture.fboId,
+//            GLES30.GL_READ_FRAMEBUFFER
+            GLES30.GL_DRAW_FRAMEBUFFER
+        )
+//        mTexture.bindToFBO(GLES30.GL_READ_FRAMEBUFFER)
+        OpenGlUtils.checkGlError("EGL THREAD--02")
+
+        //很重要，指定源帧缓冲区
+        mFBO.initFBO()
+        FboUtils.bindFrameBuffer(
+            mFBO.fboId,
+//            GLES30.GL_DRAW_FRAMEBUFFER
+            GLES30.GL_READ_FRAMEBUFFER
+        )
+//        mFBO.bindToFBO(GLES30.GL_DRAW_FRAMEBUFFER)
+        OpenGlUtils.checkGlError("EGL THREAD--01")
+
+
+
+        GLES30.glReadBuffer(GLES20.GL_COLOR_ATTACHMENT0)
+        GLES30.glBlitFramebuffer(
+            0, 0, mFBO.width, mFBO.height,
+            0, 0, mFBO.width / 2, mFBO.height / 2,
+            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+        )
+        OpenGlUtils.checkGlError("EGL THREAD--03")
+
+        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT1)
+        GLES30.glBlitFramebuffer(
+            0, 0, mFBO.width, mFBO.height,
+            mFBO.width / 2, 0, mFBO.width, mFBO.height / 2,
+            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+        )
+        OpenGlUtils.checkGlError("EGL THREAD--04")
+
+        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT2)
+        GLES30.glBlitFramebuffer(
+            0, 0, mFBO.width, mFBO.height,
+            0, mFBO.width / 2, mFBO.width / 2, mFBO.height,
+            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+        )
+        OpenGlUtils.checkGlError("EGL THREAD--05")
+
+        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT3)
+        GLES30.glBlitFramebuffer(
+            0, 0, mFBO.width, mFBO.height,
+            mFBO.width / 2, mFBO.height / 2, mFBO.width, mFBO.height,
+            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+        )
+        OpenGlUtils.checkGlError("EGL THREAD--06")
     }
 
     private fun release() {

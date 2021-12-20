@@ -31,8 +31,11 @@ object FboUtils {
      * 绑定 FrameBuffer
      * @param frameBufferId 绑定的FrameBufferId
      */
-    fun bindFrameBuffer(frameBufferId: Int) {
-        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBufferId)
+    fun bindFrameBuffer(
+        frameBufferId: Int,
+        frameBufferTarget: Int = GLES20.GL_FRAMEBUFFER
+    ) {
+        GLES20.glBindFramebuffer(frameBufferTarget, frameBufferId)
     }
 
     /**
@@ -68,11 +71,16 @@ object FboUtils {
     /**
      * 将纹理作为颜色附件绑定在帧缓冲
      */
-    fun bindTextureToFrameBuffer(textureId: Int, frameBufferId: Int) {
-        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBufferId)
+    fun bindTextureToFrameBuffer(
+        textureId: Int,
+        frameBufferId: Int,
+        frameBufferTarget: Int = GLES20.GL_FRAMEBUFFER,
+        attachment: Int = GLES20.GL_COLOR_ATTACHMENT0
+    ) {
+        GLES20.glBindFramebuffer(frameBufferTarget, frameBufferId)
         GLES20.glFramebufferTexture2D(
             GLES20.GL_FRAMEBUFFER,
-            GLES20.GL_COLOR_ATTACHMENT0,
+            attachment,
             GLES20.GL_TEXTURE_2D,
             textureId,
             0
