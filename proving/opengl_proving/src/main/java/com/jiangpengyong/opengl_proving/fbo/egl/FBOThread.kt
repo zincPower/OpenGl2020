@@ -1,49 +1,67 @@
-package com.jiangpengyong.opengl_proving.egl
+package com.jiangpengyong.opengl_proving.fbo.egl
 
 import android.graphics.Bitmap
 import android.opengl.GLES20
-import android.opengl.GLES30
-import android.opengl.GLUtils
 import com.jiangpengyong.egl_object.egl.EglController
 import com.jiangpengyong.egl_object.helper.TextureReaderHelper
-import com.jiangpengyong.egl_object.model.ByteBufferUtils.allocateFloatBuffer
-import com.jiangpengyong.egl_object.model.FboUtils
+import com.jiangpengyong.egl_object.model.ByteBufferUtils
 import com.jiangpengyong.egl_object.model.MatrixState
-import com.jiangpengyong.egl_object.model.OpenGlUtils
 import com.jiangpengyong.egl_object.model.Program
 import com.jiangpengyong.egl_object.model.texture.Texture
 import java.nio.FloatBuffer
 
-abstract class EglThread(
+class FBOThread(
     private val bitmap: Bitmap,
     private val callback: (bitmap: Bitmap?) -> Unit
 ) : Runnable {
 
-    protected val mProgram = Program()
-    protected val mTexture = Texture()
-    protected val mFBO = Texture()
-    protected val mEglController = EglController()
+    private fun obtainVertex() = "" +
+            "attribute vec4 vPosition;\n" +
+            "attribute vec2 vCoordinate;\n" +
+            "uniform mat4 vMatrix;\n" +
+            "varying vec2 aCoordinate;\n" +
+            "void main(){\n" +
+            "    gl_Position=vMatrix*vPosition;\n" +
+            "    aCoordinate=vCoordinate;\n" +
+            "}\n"
+
+    private fun obtainFragment() = "" +
+            "precision mediump float;\n" +
+            "uniform sampler2D vTexture;\n" +
+            "varying vec2 aCoordinate;\n" +
+            "void main(){\n" +
+            "  vec4 color = texture2D(vTexture, aCoordinate);\n" +
+            "  float colorR = (color.r + color.g + color.b) / 3.0;\n" +
+            "  float colorG = (color.r + color.g + color.b) / 3.0;\n" +
+            "  float colorB = (color.r + color.g + color.b) / 3.0;\n" +
+            "  gl_FragColor = vec4(colorR, colorG, colorB, color.a);\n" +
+            "}\n"
+
+    private val mProgram = Program()
+    private val mTexture = Texture()
+    private val mFBO = Texture()
+    private val mEglController = EglController()
 
     // 绘制坐标
-    protected var mvPositionHandle = -1
+    private var mvPositionHandle = -1
 
     // 纹理
-    protected var mvTextureHandle = -1
+    private var mvTextureHandle = -1
 
     // 纹理坐标
-    protected var mvCoordinateHandle = -1
+    private var mvCoordinateHandle = -1
 
     // 顶点
-    protected var mVerBuffer: FloatBuffer? = null
+    private var mVerBuffer: FloatBuffer? = null
 
     // 纹理
-    protected var mTexBuffer: FloatBuffer? = null
+    private var mTexBuffer: FloatBuffer? = null
 
     // 矩阵
-    protected var mMatrixState: MatrixState = MatrixState()
+    private var mMatrixState: MatrixState = MatrixState()
 
     // 矩阵
-    protected var mvMatrixHandle = -1
+    private var mvMatrixHandle = -1
 
     /**
      *  纹理坐标
@@ -59,7 +77,7 @@ abstract class EglThread(
      *  P0      P1
      * (0, 0)  (1, 0)
      */
-    protected fun obtainTexturePosition() = floatArrayOf(
+    private fun obtainTexturePosition() = floatArrayOf(
         0.0f, 0.0f,
         0.0f, 1.0f,
         1.0f, 0.0f,
@@ -80,17 +98,12 @@ abstract class EglThread(
      *  P0      P1
      * (-1,-1)  (1,-1)
      */
-    protected fun obtainVertexPosition() = floatArrayOf(
+    private fun obtainVertexPosition() = floatArrayOf(
         -1f, -1f,
         -1f, 1f,
         1f, -1f,
         1f, 1f
     )
-
-    abstract fun obtainVertex(): String
-    abstract fun obtainFragment(): String
-    abstract fun init(program: Program)
-    abstract fun draw()
 
     override fun run() {
         val width = bitmap.width
@@ -124,8 +137,8 @@ abstract class EglThread(
 
         mFBO.initTexture(bitmap.width, bitmap.height)
         mTexture.initTexture(bitmap = bitmap, isNeedRecycleBitmap = true)
-        mVerBuffer = allocateFloatBuffer(obtainVertexPosition())
-        mTexBuffer = allocateFloatBuffer(obtainTexturePosition())
+        mVerBuffer = ByteBufferUtils.allocateFloatBuffer(obtainVertexPosition())
+        mTexBuffer = ByteBufferUtils.allocateFloatBuffer(obtainTexturePosition())
 
         mvPositionHandle = mProgram.getAttribLocation("vPosition")
         mvCoordinateHandle = mProgram.getAttribLocation("vCoordinate")
@@ -145,8 +158,6 @@ abstract class EglThread(
             0f, 0f, 0f,
             0f, 1.0f, 0.0f
         )
-
-        init(mProgram)
     }
 
     private fun release() {
@@ -156,4 +167,45 @@ abstract class EglThread(
         mEglController.release()
     }
 
+
+    private fun draw() {
+        mFBO.bindToFBO()
+        drawInner()
+        mFBO.unbindToFBO()
+    }
+
+    private fun drawInner() {
+        mProgram.useProgram()
+
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
+        mTexture.bind()
+        GLES20.glUniform1i(mvTextureHandle, 0)
+
+        GLES20.glUniformMatrix4fv(mvMatrixHandle, 1, false, mMatrixState.getFinalMatrix(), 0)
+
+        GLES20.glEnableVertexAttribArray(mvPositionHandle)
+        GLES20.glVertexAttribPointer(
+            mvPositionHandle,
+            2,
+            GLES20.GL_FLOAT,
+            false,
+            0,
+            mVerBuffer
+        )
+
+        GLES20.glEnableVertexAttribArray(mvCoordinateHandle)
+        GLES20.glVertexAttribPointer(
+            mvCoordinateHandle,
+            2,
+            GLES20.GL_FLOAT,
+            false,
+            0,
+            mTexBuffer
+        )
+
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
+
+        GLES20.glDisableVertexAttribArray(mvPositionHandle)
+        GLES20.glDisableVertexAttribArray(mvCoordinateHandle)
+    }
 }

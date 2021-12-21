@@ -1,4 +1,4 @@
-package com.jiangpengyong.opengl_proving
+package com.jiangpengyong.opengl_proving.fbo
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -7,9 +7,9 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.jiangpengyong.opengl_proving.egl.EglThread
-import com.jiangpengyong.opengl_proving.egl.FBO3XThread
-import com.jiangpengyong.opengl_proving.egl.FBOThread
+import com.jiangpengyong.opengl_proving.R
+import com.jiangpengyong.opengl_proving.fbo.egl.BlitFramebufferThread
+import com.jiangpengyong.opengl_proving.fbo.egl.FBOThread
 import com.jiangpengyong.opengl_proving.utils.AssetUtils
 import java.io.File
 
@@ -59,8 +59,8 @@ class FBOTestActivity : AppCompatActivity() {
                 this,
                 "process_image.jpeg"
             ) ?: return@setOnClickListener
-            Thread(FBO3XThread(bitmap) { bitmap ->
-                bitmap ?: return@FBO3XThread
+            Thread(BlitFramebufferThread(bitmap) { bitmap ->
+                bitmap ?: return@BlitFramebufferThread
                 val file = File(cacheDir, "${System.currentTimeMillis()}.jpeg")
                 file.createNewFile()
                 val outputStream = file.outputStream()

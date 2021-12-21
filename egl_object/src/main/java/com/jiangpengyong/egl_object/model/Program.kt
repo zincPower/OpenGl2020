@@ -25,6 +25,8 @@ class Program {
         return mProgramId != NOT_INIT
     }
 
+    fun programId() = mProgramId
+
     /**
      * 创建shader程序的方法
      */
