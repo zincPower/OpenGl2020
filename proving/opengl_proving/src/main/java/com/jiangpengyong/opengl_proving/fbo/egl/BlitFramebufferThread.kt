@@ -34,9 +34,10 @@ class BlitFramebufferThread(
     private var mTexBuffer: FloatBuffer? = null
 
     // 矩阵
-    private var mMatrixState: MatrixState = MatrixState()
+    private val mMatrixState: MatrixState = MatrixState()
 
-    private var mAttachTexture: Array<Texture> = Array(4) { Texture() }
+    private val mAttachTexture: Array<Texture> = Array(4) { Texture() }
+    private val mFBO = Texture()
 
     private var mFBOId = -1
 
@@ -134,14 +135,12 @@ class BlitFramebufferThread(
         init()
         draw()
 
-        val mFBO = Texture()
         mFBO.initTexture(outputWidth, outputHeight)
         mFBO.bindToFBO()
         blitTextures()
         mFBO.unbindToFBO()
 
         callback.invoke(TextureReaderHelper.getBitmap(mFBO))
-        OpenGlUtils.checkGlError("Jiang [run 2]")
 
         release()
     }
@@ -175,12 +174,10 @@ class BlitFramebufferThread(
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFBOId)
         GLES20.glViewport(0, 0, inputWidth, inputHeight)
         clear()
-        OpenGlUtils.checkGlError("Jiang [draw 1]")
 
         GLES30.glDrawBuffers(ATTACHMENT_NUM, attachments, 0)
 
         GLES20.glUseProgram(mProgram.programId())
-        OpenGlUtils.checkGlError("Jiang [draw 2]")
 
         GLES20.glUniformMatrix4fv(
             mMVPMatLoc,
@@ -189,7 +186,6 @@ class BlitFramebufferThread(
             mMatrixState.getFinalMatrix(),
             0
         )
-        OpenGlUtils.checkGlError("Jiang [draw 3]")
 
         GLES20.glEnableVertexAttribArray(aPosition)
         GLES20.glVertexAttribPointer(
@@ -200,7 +196,6 @@ class BlitFramebufferThread(
             0,
             mVerBuffer
         )
-        OpenGlUtils.checkGlError("Jiang [draw 4]: $aPosition")
 
         GLES20.glEnableVertexAttribArray(aTexCoord)
         GLES20.glVertexAttribPointer(
@@ -211,21 +206,15 @@ class BlitFramebufferThread(
             0,
             mTexBuffer
         )
-        OpenGlUtils.checkGlError("Jiang [draw 5]: $aTexCoord")
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         mTexture.bind()
         GLES20.glUniform1i(mSamplerLoc, 0)
-        OpenGlUtils.checkGlError("Jiang [draw 6]")
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
-        OpenGlUtils.checkGlError("Jiang [draw 7]")
 
         GLES20.glDisableVertexAttribArray(aPosition)
-        OpenGlUtils.checkGlError("Jiang [draw 8]")
-
         GLES20.glDisableVertexAttribArray(aTexCoord)
-        OpenGlUtils.checkGlError("Jiang [draw 9]")
 
         GLES20.glBindFramebuffer(GLES30.GL_DRAW_FRAMEBUFFER, 0)
         GLES20.glViewport(0, 0, outputWidth, outputHeight)
@@ -240,36 +229,35 @@ class BlitFramebufferThread(
     }
 
     private fun blitTextures() {
-        // 很重要，指定源帧缓冲区
         GLES20.glBindFramebuffer(GLES30.GL_READ_FRAMEBUFFER, mFBOId)
 
         GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT0)
         GLES30.glBlitFramebuffer(
             0, 0, inputWidth, inputHeight,
-            0, 0, outputWidth / 2, outputHeight / 2,
+            0, 0, outputWidth, outputHeight,
             GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
         )
 
-        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT1)
-        GLES30.glBlitFramebuffer(
-            0, 0, inputWidth, inputHeight,
-            inputWidth, 0, outputWidth, outputHeight / 2,
-            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
-        )
-
+//        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT1)
+//        GLES30.glBlitFramebuffer(
+//            0, 0, inputWidth, inputHeight,
+//            inputWidth, 0, outputWidth, outputHeight / 2,
+//            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+//        )
+//
         GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT2)
         GLES30.glBlitFramebuffer(
             0, 0, inputWidth, inputHeight,
             0, inputHeight, outputWidth / 2, outputHeight,
             GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
         )
-
-        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT3)
-        GLES30.glBlitFramebuffer(
-            0, 0, inputWidth, inputHeight,
-            inputWidth, inputHeight, outputWidth, outputHeight,
-            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
-        )
+//
+//        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT3)
+//        GLES30.glBlitFramebuffer(
+//            0, 0, inputWidth, inputHeight,
+//            inputWidth, inputHeight, outputWidth, outputHeight,
+//            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+//        )
     }
 
     private fun initFBO(width: Int, height: Int) {
@@ -298,6 +286,15 @@ class BlitFramebufferThread(
         return
     }
 
+    private fun clear() {
+        GLES20.glClearColor(1.0f, 0.0f, 0.0f, 1.0f)
+        GLES20.glClear(
+            GLES20.GL_COLOR_BUFFER_BIT
+                    or GLES20.GL_DEPTH_BUFFER_BIT
+                    or GLES20.GL_STENCIL_BUFFER_BIT
+        )
+    }
+
     companion object {
         private const val TAG = "FBO Blit"
         private const val ATTACHMENT_NUM = 4
@@ -307,15 +304,6 @@ class BlitFramebufferThread(
             GLES30.GL_COLOR_ATTACHMENT1,
             GLES30.GL_COLOR_ATTACHMENT2,
             GLES30.GL_COLOR_ATTACHMENT3
-        )
-    }
-
-    private fun clear() {
-        GLES20.glClearColor(1.0f, 0.0f, 0.0f, 1.0f)
-        GLES20.glClear(
-            GLES20.GL_COLOR_BUFFER_BIT
-                    or GLES20.GL_DEPTH_BUFFER_BIT
-                    or GLES20.GL_STENCIL_BUFFER_BIT
         )
     }
 }
