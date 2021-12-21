@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.jiangpengyong.opengl_proving.egl.EglThread
+import com.jiangpengyong.opengl_proving.egl.FBO3XThread
+import com.jiangpengyong.opengl_proving.egl.FBOThread
 import com.jiangpengyong.opengl_proving.utils.AssetUtils
 import java.io.File
 
@@ -37,8 +39,8 @@ class FBOTestActivity : AppCompatActivity() {
                 this,
                 "process_image.jpeg"
             ) ?: return@setOnClickListener
-            Thread(EglThread(bitmap, false) { bitmap ->
-                bitmap ?: return@EglThread
+            Thread(FBOThread(bitmap) { bitmap ->
+                bitmap ?: return@FBOThread
                 val file = File(cacheDir, "${System.currentTimeMillis()}.jpeg")
                 file.createNewFile()
                 val outputStream = file.outputStream()
@@ -57,8 +59,8 @@ class FBOTestActivity : AppCompatActivity() {
                 this,
                 "process_image.jpeg"
             ) ?: return@setOnClickListener
-            Thread(EglThread(bitmap, true) { bitmap ->
-                bitmap ?: return@EglThread
+            Thread(FBO3XThread(bitmap) { bitmap ->
+                bitmap ?: return@FBO3XThread
                 val file = File(cacheDir, "${System.currentTimeMillis()}.jpeg")
                 file.createNewFile()
                 val outputStream = file.outputStream()
