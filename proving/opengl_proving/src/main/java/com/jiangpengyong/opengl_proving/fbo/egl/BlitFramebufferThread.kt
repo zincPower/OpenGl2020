@@ -175,7 +175,7 @@ class BlitFramebufferThread(
         GLES20.glViewport(0, 0, inputWidth, inputHeight)
         clear()
 
-        GLES30.glDrawBuffers(ATTACHMENT_NUM, attachments, 0)
+        GLES30.glDrawBuffers(attachments.size, attachments, 0)
 
         GLES20.glUseProgram(mProgram.programId())
 
@@ -229,7 +229,7 @@ class BlitFramebufferThread(
     }
 
     private fun blitTextures() {
-        GLES20.glBindFramebuffer(GLES30.GL_READ_FRAMEBUFFER, mFBOId)
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFBOId)
 
         GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT0)
         GLES30.glBlitFramebuffer(
@@ -297,7 +297,6 @@ class BlitFramebufferThread(
 
     companion object {
         private const val TAG = "FBO Blit"
-        private const val ATTACHMENT_NUM = 4
 
         private val attachments = intArrayOf(
             GLES30.GL_COLOR_ATTACHMENT0,
