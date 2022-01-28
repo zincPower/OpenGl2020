@@ -9,7 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity android:name=".view.VboActivity">-->
-        <activity android:name=".view.FboActivity">
+<!--        <activity android:name=".view.FboActivity">-->
+        <activity android:name=".multirender.Sample1_6_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

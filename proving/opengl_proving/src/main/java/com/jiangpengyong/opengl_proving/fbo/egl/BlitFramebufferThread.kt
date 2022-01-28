@@ -238,26 +238,26 @@ class BlitFramebufferThread(
             GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
         )
 
-//        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT1)
-//        GLES30.glBlitFramebuffer(
-//            0, 0, inputWidth, inputHeight,
-//            inputWidth, 0, outputWidth, outputHeight / 2,
-//            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
-//        )
-//
+        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT1)
+        GLES30.glBlitFramebuffer(
+            0, 0, inputWidth, inputHeight,
+            inputWidth, 0, outputWidth, outputHeight / 2,
+            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+        )
+
         GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT2)
         GLES30.glBlitFramebuffer(
             0, 0, inputWidth, inputHeight,
             0, inputHeight, outputWidth / 2, outputHeight,
             GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
         )
-//
-//        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT3)
-//        GLES30.glBlitFramebuffer(
-//            0, 0, inputWidth, inputHeight,
-//            inputWidth, inputHeight, outputWidth, outputHeight,
-//            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
-//        )
+
+        GLES30.glReadBuffer(GLES30.GL_COLOR_ATTACHMENT3)
+        GLES30.glBlitFramebuffer(
+            0, 0, inputWidth, inputHeight,
+            inputWidth, inputHeight, outputWidth, outputHeight,
+            GLES20.GL_COLOR_BUFFER_BIT, GLES20.GL_LINEAR
+        )
     }
 
     private fun initFBO(width: Int, height: Int) {

@@ -244,7 +244,7 @@ class EglHelper {
      * 创建可显示的渲染缓存
      * @param surface 渲染窗口的surface
      */
-    private fun createWindowSurface(surface: Any): EGLSurface? {
+    fun createWindowSurface(surface: Any): EGLSurface? {
         if (surface !is Surface && surface !is SurfaceTexture) {
             Logger.e("Surface is invalid.")
             return null
@@ -289,4 +289,34 @@ class EglHelper {
 
         return eglSurface
     }
+
+
+    // =========================
+    fun bindSurface(eglSurface: EGLSurface): Boolean {
+        // 7. 绑定EglContext和Surface到显示设备中
+        val curRes = EGL14.eglMakeCurrent(mEglDisplay, eglSurface, eglSurface, mEglContext)
+        if (!curRes) {
+            Logger.e("EGLMakeCurrent failed.")
+            return false
+        } else {
+            Logger.i("EglMakeCurrent success.")
+        }
+
+        Logger.i("EGL create success.")
+
+        return true
+    }
+
+    /**
+     * 更换缓冲
+     */
+    fun swapBuffers(eglSurface: EGLSurface): Boolean {
+        if (mEglDisplay == null) {
+            Logger.i("Egl display is null.Please call init function first.")
+            return false
+        }
+
+        return EGL14.eglSwapBuffers(mEglDisplay, eglSurface)
+    }
+
 }

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="proving/opengl_proving/src/main/res/drawable/common_button_bg.xml" value="0.4083333333333333" />
+        <entry key="proving/opengl_proving/src/main/res/layout/activity_multi_render.xml" value="0.334375" />
         <entry key="proving/opengl_proving/src/main/res/layout/activity_render.xml" value="0.4244791666666667" />
         <entry key="proving/opengl_proving/src/main/res/layout/activity_water_mark.xml" value="0.24583333333333332" />
       </map>
